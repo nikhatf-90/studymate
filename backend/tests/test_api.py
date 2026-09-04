@@ -3,6 +3,10 @@ os.environ["DATABASE_URL"]="sqlite:///./test_studymate.db"
 from fastapi.testclient import TestClient
 from backend.app.main import app
 client=TestClient(app)
+def test_root_route():
+    r=client.get("/")
+    assert r.status_code==200
+    assert r.json()["status"]=="ok"
 def test_registration_login_and_protected_flow():
     r=client.post("/api/auth/register",json={"email":"student@example.com","password":"securepass1","name":"Demo Student"}); assert r.status_code in (201,409)
     r=client.post("/api/auth/login",json={"email":"student@example.com","password":"securepass1"}); assert r.status_code==200

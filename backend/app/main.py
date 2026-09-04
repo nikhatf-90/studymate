@@ -14,6 +14,8 @@ app=FastAPI(title="StudyMate AI",version="1.0.0")
 app.add_middleware(CORSMiddleware,allow_origins=settings.cors_origins.split(","),allow_origin_regex=r"https?://(localhost|127\.0\.0\.1)(:\d+)?",allow_credentials=True,allow_methods=["*"],allow_headers=["*"])
 @app.on_event("startup")
 def startup(): Base.metadata.create_all(bind=engine)
+@app.get("/")
+def root(): return {"name":"StudyMate AI","status":"ok","docs":"/docs","health":"/api/health"}
 @app.get("/api/health")
 def health(): return {"status":"ok","ai_configured":bool(settings.gemini_api_key)}
 @app.post("/api/auth/register",response_model=Token,status_code=201)
