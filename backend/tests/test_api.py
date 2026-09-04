@@ -7,6 +7,9 @@ def test_root_route():
     r=client.get("/")
     assert r.status_code==200
     assert r.json()["status"]=="ok"
+def test_vercel_cors_origin():
+    r=client.get("/api/health",headers={"Origin":"https://studymate-ai.vercel.app"})
+    assert r.headers["access-control-allow-origin"]=="https://studymate-ai.vercel.app"
 def test_registration_login_and_protected_flow():
     r=client.post("/api/auth/register",json={"email":"student@example.com","password":"securepass1","name":"Demo Student"}); assert r.status_code in (201,409)
     r=client.post("/api/auth/login",json={"email":"student@example.com","password":"securepass1"}); assert r.status_code==200

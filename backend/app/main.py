@@ -11,7 +11,7 @@ from .security import current_user, hash_password, token_for, verify_password
 from .services.prediction import estimate
 Base.metadata.create_all(bind=engine)
 app=FastAPI(title="StudyMate AI",version="1.0.0")
-app.add_middleware(CORSMiddleware,allow_origins=settings.cors_origins.split(","),allow_origin_regex=r"https?://(localhost|127\.0\.0\.1)(:\d+)?",allow_credentials=True,allow_methods=["*"],allow_headers=["*"])
+app.add_middleware(CORSMiddleware,allow_origins=settings.cors_origins.split(","),allow_origin_regex=r"https://([a-z0-9-]+\.)?vercel\.app$|https?://(localhost|127\.0\.0\.1)(:\d+)?$",allow_credentials=True,allow_methods=["*"],allow_headers=["*"])
 @app.on_event("startup")
 def startup(): Base.metadata.create_all(bind=engine)
 @app.get("/")
